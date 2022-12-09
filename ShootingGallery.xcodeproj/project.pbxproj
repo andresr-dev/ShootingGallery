@@ -14,6 +14,8 @@
 		815D35C629438D1400BAA96C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 815D35C429438D1400BAA96C /* Main.storyboard */; };
 		815D35C829438D1500BAA96C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 815D35C729438D1500BAA96C /* Assets.xcassets */; };
 		815D35CB29438D1500BAA96C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 815D35C929438D1500BAA96C /* LaunchScreen.storyboard */; };
+		815D35D22943B62800BAA96C /* Shelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815D35D12943B62800BAA96C /* Shelf.swift */; };
+		815D35D42943BD1400BAA96C /* shot.wav in Resources */ = {isa = PBXBuildFile; fileRef = 815D35D32943BD1400BAA96C /* shot.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		815D35C529438D1400BAA96C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		815D35C729438D1500BAA96C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		815D35CA29438D1500BAA96C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		815D35D12943B62800BAA96C /* Shelf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shelf.swift; sourceTree = "<group>"; };
+		815D35D32943BD1400BAA96C /* shot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shot.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +64,12 @@
 				815D35BA29438D1400BAA96C /* AppDelegate.swift */,
 				815D35BC29438D1400BAA96C /* GameScene.sks */,
 				815D35C029438D1400BAA96C /* GameScene.swift */,
+				815D35D12943B62800BAA96C /* Shelf.swift */,
 				815D35C229438D1400BAA96C /* GameViewController.swift */,
 				815D35C429438D1400BAA96C /* Main.storyboard */,
 				815D35C729438D1500BAA96C /* Assets.xcassets */,
 				815D35C929438D1500BAA96C /* LaunchScreen.storyboard */,
+				815D35D32943BD1400BAA96C /* shot.wav */,
 			);
 			path = ShootingGallery;
 			sourceTree = "<group>";
@@ -126,6 +132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				815D35D42943BD1400BAA96C /* shot.wav in Resources */,
 				815D35C629438D1400BAA96C /* Main.storyboard in Resources */,
 				815D35BD29438D1400BAA96C /* GameScene.sks in Resources */,
 				815D35C829438D1500BAA96C /* Assets.xcassets in Resources */,
@@ -140,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				815D35D22943B62800BAA96C /* Shelf.swift in Sources */,
 				815D35C129438D1400BAA96C /* GameScene.swift in Sources */,
 				815D35C329438D1400BAA96C /* GameViewController.swift in Sources */,
 				815D35BB29438D1400BAA96C /* AppDelegate.swift in Sources */,
@@ -295,8 +303,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -327,8 +335,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
