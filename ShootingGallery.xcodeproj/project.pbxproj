@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		815D35BB29438D1400BAA96C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815D35BA29438D1400BAA96C /* AppDelegate.swift */; };
 		815D35BD29438D1400BAA96C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 815D35BC29438D1400BAA96C /* GameScene.sks */; };
-		815D35BF29438D1400BAA96C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 815D35BE29438D1400BAA96C /* Actions.sks */; };
 		815D35C129438D1400BAA96C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815D35C029438D1400BAA96C /* GameScene.swift */; };
 		815D35C329438D1400BAA96C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815D35C229438D1400BAA96C /* GameViewController.swift */; };
 		815D35C629438D1400BAA96C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 815D35C429438D1400BAA96C /* Main.storyboard */; };
@@ -21,7 +20,6 @@
 		815D35B729438D1400BAA96C /* ShootingGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShootingGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		815D35BA29438D1400BAA96C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		815D35BC29438D1400BAA96C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		815D35BE29438D1400BAA96C /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		815D35C029438D1400BAA96C /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		815D35C229438D1400BAA96C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		815D35C529438D1400BAA96C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,7 +59,6 @@
 			children = (
 				815D35BA29438D1400BAA96C /* AppDelegate.swift */,
 				815D35BC29438D1400BAA96C /* GameScene.sks */,
-				815D35BE29438D1400BAA96C /* Actions.sks */,
 				815D35C029438D1400BAA96C /* GameScene.swift */,
 				815D35C229438D1400BAA96C /* GameViewController.swift */,
 				815D35C429438D1400BAA96C /* Main.storyboard */,
@@ -133,7 +130,6 @@
 				815D35BD29438D1400BAA96C /* GameScene.sks in Resources */,
 				815D35C829438D1500BAA96C /* Assets.xcassets in Resources */,
 				815D35CB29438D1500BAA96C /* LaunchScreen.storyboard in Resources */,
-				815D35BF29438D1400BAA96C /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +297,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,9 +305,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.andresraigoza.ShootingGallery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -329,6 +329,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -336,9 +337,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.andresraigoza.ShootingGallery;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
