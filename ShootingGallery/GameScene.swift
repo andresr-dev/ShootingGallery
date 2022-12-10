@@ -11,7 +11,13 @@ class GameScene: SKScene {
     var firstRowTimer: Timer!
     var secondRowTimer: Timer!
     var thirdRowTimer: Timer!
+    
     var yOffset = -10
+    
+    var scoreLabel: SKLabelNode!
+    var timerLabel: SKLabelNode!
+    var ammo: SKSpriteNode!
+    var ammoLabel: SKLabelNode!
     
     override func didMove(to view: SKView) {
         let shelf = Shelf()
@@ -22,7 +28,29 @@ class GameScene: SKScene {
         
         physicsWorld.gravity = .zero
         
-        createFirstRowTarget()
+        scoreLabel = SKLabelNode(fontNamed: "Avenir-Medium")
+        scoreLabel.fontSize = 40
+        scoreLabel.text = "Score: 0"
+        scoreLabel.position = CGPoint(x: 20, y: 705)
+        scoreLabel.horizontalAlignmentMode = .left
+        addChild(scoreLabel)
+        
+        timerLabel = SKLabelNode(fontNamed: "Avenir-Heavy")
+        timerLabel.fontSize = 50
+        timerLabel.text = "59:99"
+        timerLabel.position = CGPoint(x: 512, y: 700)
+        addChild(timerLabel)
+        
+        ammo = SKSpriteNode(imageNamed: "shots0")
+        ammo.position = CGPoint(x: 1004 - (ammo.size.width / 2), y: 740 - (ammo.size.height / 2))
+        addChild(ammo)
+        
+        ammoLabel = SKLabelNode(fontNamed: "Avenir-Medium")
+        ammoLabel.fontSize = 50
+        ammoLabel.text = "6"
+        ammoLabel.position = CGPoint(x: 1004 - ammo.size.width - 28, y: 699)
+        addChild(ammoLabel)
+        
         firstRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createFirstRowTarget), userInfo: nil, repeats: true)
         secondRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createSecondRowTarget), userInfo: nil, repeats: true)
         thirdRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createThirdRowTarget), userInfo: nil, repeats: true)
@@ -53,10 +81,10 @@ class GameScene: SKScene {
             target.name = "target"
             target.size = CGSize(width: target.size.width * 0.8, height: target.size.height * 0.8)
         }
-        target.position = CGPoint(x: 1200, y: 273 + yOffset + yRowOffset)
+        target.position = CGPoint(x: rowIndex == 1 ? 1100 : -100, y: 273 + yOffset + yRowOffset)
         addChild(target)
         target.physicsBody = SKPhysicsBody(rectangleOf: target.size)
-        target.physicsBody?.velocity = CGVector(dx: -500, dy: 0)
+        target.physicsBody?.velocity = CGVector(dx: rowIndex == 1 ? -500 : 500, dy: 0)
         target.physicsBody?.linearDamping = 0
     }
     
