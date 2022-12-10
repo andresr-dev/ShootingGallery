@@ -21,6 +21,13 @@ class GameScene: SKScene {
     
     var targetLabels = [SKLabelNode]()
     
+    var timeCounter = 5999.0 {
+        didSet {
+            timerLabel.text = timeCounter.asTimeFormatted()
+        }
+    }
+    var gameTimer: Timer!
+    
     override func didMove(to view: SKView) {
         let shelf = Shelf()
         shelf.yOffset = yOffset
@@ -33,14 +40,15 @@ class GameScene: SKScene {
         scoreLabel = SKLabelNode(fontNamed: "Avenir-Medium")
         scoreLabel.fontSize = 40
         scoreLabel.text = "Score: 0"
-        scoreLabel.position = CGPoint(x: 20, y: 702)
+        scoreLabel.position = CGPoint(x: 20, y: 700)
         scoreLabel.horizontalAlignmentMode = .left
         addChild(scoreLabel)
         
         timerLabel = SKLabelNode(fontNamed: "Avenir-Heavy")
         timerLabel.fontSize = 50
         timerLabel.text = "59:99"
-        timerLabel.position = CGPoint(x: 512, y: 697)
+        timerLabel.position = CGPoint(x: 512 - (timerLabel.frame.size.width / 2), y: 697)
+        timerLabel.horizontalAlignmentMode = .left
         addChild(timerLabel)
         
         ammo = SKSpriteNode(imageNamed: "shots0")
@@ -53,15 +61,27 @@ class GameScene: SKScene {
         ammoLabel.position = CGPoint(x: 1004 - ammo.size.width - 28, y: 696)
         addChild(ammoLabel)
         
+        let reload = SKSpriteNode(imageNamed: "shots0")
+        reload.position = CGPoint(x: ((1024 * 6) / 7) + 45, y: 90)
+        reload.name = "reload"
+        addChild(reload)
+        
+        let reloadLabel = SKLabelNode(fontNamed: "Avenir-Medium")
+        reloadLabel.fontSize = 18
+        reloadLabel.position = CGPoint(x: reload.position.x + 2, y: reload.position.y - reload.size.height)
+        reloadLabel.text = "RELOAD!"
+        reloadLabel.name = "reload"
+        addChild(reloadLabel)
+        
         for i in 0...4 {
             let target = SKSpriteNode(imageNamed: "target\(i)")
-            target.position = CGPoint(x: (1050 * (i + 1)) / 6, y: 80)
+            target.position = CGPoint(x: ((1000 * (i + 1)) / 6) - 35, y: 80)
             target.size = CGSize(width: target.size.width * (i == 4 ? 0.7 : 0.5), height: target.size.height * (i == 4 ? 0.7 : 0.5))
             addChild(target)
             
             let label = SKLabelNode(fontNamed: "Avenir-Medium")
-            label.fontSize = 50
-            label.position = CGPoint(x: target.position.x - target.size.width, y: target.position.y - 15)
+            label.fontSize = 45
+            label.position = CGPoint(x: target.position.x - target.size.width + 5, y: target.position.y - 15)
             label.text = "0"
             label.name = "targetLabel\(i)"
             targetLabels.append(label)
@@ -71,6 +91,8 @@ class GameScene: SKScene {
         firstRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createFirstRowTarget), userInfo: nil, repeats: true)
         secondRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createSecondRowTarget), userInfo: nil, repeats: true)
         thirdRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createThirdRowTarget), userInfo: nil, repeats: true)
+        
+        gameTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
     }
         
     @objc func createFirstRowTarget() {
@@ -86,6 +108,14 @@ class GameScene: SKScene {
     @objc func createThirdRowTarget() {
         let rowIndex = 2
         addTargetNode(for: rowIndex)
+    }
+    
+    @objc func countdown() {
+        if timeCounter > 0 {
+            timeCounter -= 1
+            return
+        }
+        gameTimer.invalidate()
     }
     
     @objc func addTargetNode(for rowIndex: Int) {
