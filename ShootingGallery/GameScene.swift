@@ -19,6 +19,8 @@ class GameScene: SKScene {
     var ammo: SKSpriteNode!
     var ammoLabel: SKLabelNode!
     
+    var targetLabels = [SKLabelNode]()
+    
     override func didMove(to view: SKView) {
         let shelf = Shelf()
         shelf.yOffset = yOffset
@@ -51,38 +53,54 @@ class GameScene: SKScene {
         ammoLabel.position = CGPoint(x: 1004 - ammo.size.width - 28, y: 699)
         addChild(ammoLabel)
         
+        for i in 0...4 {
+            let target = SKSpriteNode(imageNamed: "target\(i)")
+            target.position = CGPoint(x: (1050 * (i + 1)) / 6, y: 80)
+            target.size = CGSize(width: target.size.width * (i == 4 ? 0.7 : 0.5), height: target.size.height * (i == 4 ? 0.7 : 0.5))
+            addChild(target)
+            
+            let label = SKLabelNode(fontNamed: "Avenir-Medium")
+            label.fontSize = 50
+            label.position = CGPoint(x: target.position.x - target.size.width, y: target.position.y - 15)
+            label.text = "0"
+            label.name = "targetLabel\(i)"
+            targetLabels.append(label)
+            addChild(label)
+        }
+        
         firstRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createFirstRowTarget), userInfo: nil, repeats: true)
         secondRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createSecondRowTarget), userInfo: nil, repeats: true)
         thirdRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createThirdRowTarget), userInfo: nil, repeats: true)
     }
         
     @objc func createFirstRowTarget() {
-        addTargetNodeFor(rowIndex: 0)
+        let rowIndex = 0
+        addTargetNode(for: rowIndex)
     }
     
     @objc func createSecondRowTarget() {
-        addTargetNodeFor(rowIndex: 1)
+        let rowIndex = 1
+        addTargetNode(for: rowIndex)
     }
     
     @objc func createThirdRowTarget() {
-        addTargetNodeFor(rowIndex: 2)
+        let rowIndex = 2
+        addTargetNode(for: rowIndex)
     }
     
-    @objc func addTargetNodeFor(rowIndex: Int) {
+    @objc func addTargetNode(for rowIndex: Int) {
         let number = Int.random(in: 0...4)
         let targetName = "target\(number)"
         let yRowOffset = rowIndex * 130 + (rowIndex == 0 ? 2 : 5)
         
         let target = SKSpriteNode(imageNamed: targetName)
-        if number == 4 {
-            target.name = "penguin"
-            target.size = CGSize(width: target.size.width * 1.1, height: target.size.height * 1.1)
-        } else {
-            target.name = "target"
-            target.size = CGSize(width: target.size.width * 0.8, height: target.size.height * 0.8)
-        }
+        let width = target.size.width * (number == 4 ? 1.1 : 0.8)
+        let height = target.size.height * (number == 4 ? 1.1 : 0.8)
+        target.size = CGSize(width: width, height: height)
+        target.name = "target\(number)"
         target.position = CGPoint(x: rowIndex == 1 ? 1100 : -100, y: 273 + yOffset + yRowOffset)
         addChild(target)
+        
         target.physicsBody = SKPhysicsBody(rectangleOf: target.size)
         target.physicsBody?.velocity = CGVector(dx: rowIndex == 1 ? -500 : 500, dy: 0)
         target.physicsBody?.linearDamping = 0
