@@ -12,7 +12,7 @@ class GameScene: SKScene {
     var secondRowTimer: Timer!
     var thirdRowTimer: Timer!
     
-    var yOffset = -10
+    var yOffset = -15
     
     var scoreLabel: SKLabelNode!
     var timerLabel: SKLabelNode!
@@ -33,24 +33,24 @@ class GameScene: SKScene {
         scoreLabel = SKLabelNode(fontNamed: "Avenir-Medium")
         scoreLabel.fontSize = 40
         scoreLabel.text = "Score: 0"
-        scoreLabel.position = CGPoint(x: 20, y: 705)
+        scoreLabel.position = CGPoint(x: 20, y: 702)
         scoreLabel.horizontalAlignmentMode = .left
         addChild(scoreLabel)
         
         timerLabel = SKLabelNode(fontNamed: "Avenir-Heavy")
         timerLabel.fontSize = 50
         timerLabel.text = "59:99"
-        timerLabel.position = CGPoint(x: 512, y: 700)
+        timerLabel.position = CGPoint(x: 512, y: 697)
         addChild(timerLabel)
         
         ammo = SKSpriteNode(imageNamed: "shots0")
-        ammo.position = CGPoint(x: 1004 - (ammo.size.width / 2), y: 740 - (ammo.size.height / 2))
+        ammo.position = CGPoint(x: 1004 - (ammo.size.width / 2), y: 737 - (ammo.size.height / 2))
         addChild(ammo)
         
         ammoLabel = SKLabelNode(fontNamed: "Avenir-Medium")
         ammoLabel.fontSize = 50
         ammoLabel.text = "6"
-        ammoLabel.position = CGPoint(x: 1004 - ammo.size.width - 28, y: 699)
+        ammoLabel.position = CGPoint(x: 1004 - ammo.size.width - 28, y: 696)
         addChild(ammoLabel)
         
         for i in 0...4 {
