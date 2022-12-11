@@ -21,7 +21,7 @@ class GameScene: SKScene {
     
     var targetLabels = [SKLabelNode]()
     
-    var timeCounter = 5999.0 {
+    var timeCounter = 5999 {
         didSet {
             timerLabel.text = timeCounter.asTimeFormatted()
         }

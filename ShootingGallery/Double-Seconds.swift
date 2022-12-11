@@ -7,11 +7,11 @@
 
 import Foundation
 
-extension Double {
+extension Int {
     func asTimeFormatted() -> String {
-        let seconds = (self / 100).rounded()
-        let tensOfMilliseconds = self.truncatingRemainder(dividingBy: 100)
-        let formatted = String(format: "%02.0f:%02.0f", seconds, tensOfMilliseconds)
+        let seconds = self / 100
+        let tensOfMilliSeconds = self % 100
+        let formatted = String(format: "%02d:%02d", seconds, tensOfMilliSeconds)
         return formatted
     }
 }
