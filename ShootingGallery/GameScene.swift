@@ -21,6 +21,25 @@ class GameScene: SKScene {
     var currentAmmo: SKSpriteNode!
     var currentAmmoLabel: SKLabelNode!
     
+    var ammoLeft = 6 {
+        didSet {
+            currentAmmoLabel.text = String(ammoLeft)
+            currentAmmo.removeFromParent()
+            switch ammoLeft {
+            case 5...:
+                currentAmmo = SKSpriteNode(imageNamed: "shots0")
+            case 3...:
+                currentAmmo = SKSpriteNode(imageNamed: "shots1")
+            case 1...:
+                currentAmmo = SKSpriteNode(imageNamed: "shots2")
+            default:
+                currentAmmo = SKSpriteNode(imageNamed: "shots3")
+            }
+            currentAmmo.position = CGPoint(x: 1004 - (currentAmmo.size.width / 2), y: 737 - (currentAmmo.size.height / 2))
+            addChild(currentAmmo)
+        }
+    }
+    
     var score = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
@@ -153,22 +172,48 @@ class GameScene: SKScene {
         
         if (shelf.bottomWoodBoard.position.y - 30...shelf.topWoodBoard.position.y + 30).contains(location.y) {
             // Shooting zone
-            let shot = SKEmitterNode(fileNamed: "Shot")!
-            shot.position = location
-            shot.zPosition = 1
-            addChild(shot)
+            guard ammoLeft > 0 else {
+                let emptyGunSound = SKAction.playSoundFileNamed("empty.wav", waitForCompletion: false)
+                run(emptyGunSound)
+                return
+            }
+            
+            shootGun(at: location)
             
             for node in nodes {
                 if let name = node.name, name.contains("target"), !name.contains("Label") {
                     if (61..<1024 - 60).contains(location.x) {
-                        shootTarget(node: node)
+                        hitTarget(node: node)
                     }
+                }
+            }
+        } else {
+            for node in nodes {
+                if node.name == "reload" && ammoLeft == 0 {
+                    let reloadSound = SKAction.playSoundFileNamed("reload.wav", waitForCompletion: false)
+                    run(reloadSound)
+                    ammoLeft = 6
                 }
             }
         }
     }
     
-    func shootTarget(node: SKNode) {
+    func shootGun(at location: CGPoint) {
+        let shot = SKEmitterNode(fileNamed: "Shot")!
+        shot.position = location
+        shot.zPosition = 1
+        addChild(shot)
+        
+        Task {
+            try await Task.sleep(for: .seconds(0.4))
+            shot.removeFromParent()
+        }
+        let shotSound = SKAction.playSoundFileNamed("shot.wav", waitForCompletion: false)
+        run(shotSound)
+        ammoLeft -= 1
+    }
+    
+    func hitTarget(node: SKNode) {
         guard let index = Int(node.name!.suffix(1)) else { return }
         
         shotsCount[index] += 1
@@ -179,8 +224,10 @@ class GameScene: SKScene {
         node.run(fadeOut)
         
         if index == 4 {
-            label.fontColor = .red
             score -= 5
+            score = score < 0 ? 0 : score
+            
+            label.fontColor = .red
         } else {
             score += 2
         }
@@ -188,7 +235,7 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         for node in children {
-            if node.position.x < -100 {
+            if node.position.x < -100 || node.position.x > 1100 {
                 node.removeFromParent()
             }
         }

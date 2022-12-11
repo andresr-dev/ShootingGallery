@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8159E4F12946808B003DFBF9 /* reload.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8159E4F02946808B003DFBF9 /* reload.wav */; };
+		8159E4F32946809D003DFBF9 /* empty.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8159E4F22946809D003DFBF9 /* empty.wav */; };
 		815D35BB29438D1400BAA96C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815D35BA29438D1400BAA96C /* AppDelegate.swift */; };
 		815D35BD29438D1400BAA96C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 815D35BC29438D1400BAA96C /* GameScene.sks */; };
 		815D35C129438D1400BAA96C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815D35C029438D1400BAA96C /* GameScene.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8159E4F02946808B003DFBF9 /* reload.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = reload.wav; sourceTree = "<group>"; };
+		8159E4F22946809D003DFBF9 /* empty.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = empty.wav; sourceTree = "<group>"; };
 		815D35B729438D1400BAA96C /* ShootingGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShootingGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		815D35BA29438D1400BAA96C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		815D35BC29438D1400BAA96C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -76,6 +80,8 @@
 				815D35C729438D1500BAA96C /* Assets.xcassets */,
 				815D35C929438D1500BAA96C /* LaunchScreen.storyboard */,
 				815D35D32943BD1400BAA96C /* shot.wav */,
+				8159E4F02946808B003DFBF9 /* reload.wav */,
+				8159E4F22946809D003DFBF9 /* empty.wav */,
 			);
 			path = ShootingGallery;
 			sourceTree = "<group>";
@@ -141,6 +147,8 @@
 				815D35D42943BD1400BAA96C /* shot.wav in Resources */,
 				815D35C629438D1400BAA96C /* Main.storyboard in Resources */,
 				815D35BD29438D1400BAA96C /* GameScene.sks in Resources */,
+				8159E4F12946808B003DFBF9 /* reload.wav in Resources */,
+				8159E4F32946809D003DFBF9 /* empty.wav in Resources */,
 				815D35C829438D1500BAA96C /* Assets.xcassets in Resources */,
 				815D35CB29438D1500BAA96C /* LaunchScreen.storyboard in Resources */,
 				81861FBE294676D4001E7B7D /* Shot.sks in Resources */,
