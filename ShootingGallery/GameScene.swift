@@ -21,6 +21,12 @@ class GameScene: SKScene {
     var currentAmmo: SKSpriteNode!
     var currentAmmoLabel: SKLabelNode!
     
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
+    
     var targetLabels = [SKLabelNode]()
     var shotsCount = Array(repeating: 0, count: 5)
     
@@ -147,20 +153,36 @@ class GameScene: SKScene {
         
         if (shelf.bottomWoodBoard.position.y - 30...shelf.topWoodBoard.position.y + 30).contains(location.y) {
             // Shooting zone
-        for node in nodes {
-            guard let name = node.name else { return }
-                if name.contains("target") && !name.contains("Label") {
+            let shot = SKEmitterNode(fileNamed: "Shot")!
+            shot.position = location
+            shot.zPosition = 1
+            addChild(shot)
+            
+            for node in nodes {
+                if let name = node.name, name.contains("target"), !name.contains("Label") {
                     if (61..<1024 - 60).contains(location.x) {
-                        if let index = Int(name.suffix(1)) {
-                            shotsCount[index] += 1
-                            targetLabels[index].text = "\(shotsCount[index])"
-                            if name == "target4" {
-                                targetLabels[index].fontColor = .red
-                            }
-                        }
+                        shootTarget(node: node)
                     }
                 }
             }
+        }
+    }
+    
+    func shootTarget(node: SKNode) {
+        guard let index = Int(node.name!.suffix(1)) else { return }
+        
+        shotsCount[index] += 1
+        let label = targetLabels[index]
+        label.text = "\(shotsCount[index])"
+        
+        let fadeOut = SKAction.fadeOut(withDuration: 0.05)
+        node.run(fadeOut)
+        
+        if index == 4 {
+            label.fontColor = .red
+            score -= 5
+        } else {
+            score += 2
         }
     }
     
