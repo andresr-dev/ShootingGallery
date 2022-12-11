@@ -8,6 +8,8 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    var shelf: Shelf!
+    
     var firstRowTimer: Timer!
     var secondRowTimer: Timer!
     var thirdRowTimer: Timer!
@@ -20,6 +22,7 @@ class GameScene: SKScene {
     var currentAmmoLabel: SKLabelNode!
     
     var targetLabels = [SKLabelNode]()
+    var shotsCount = Array(repeating: 0, count: 5)
     
     var timeCounter = 5999 {
         didSet {
@@ -29,7 +32,7 @@ class GameScene: SKScene {
     var gameTimer: Timer!
     
     override func didMove(to view: SKView) {
-        let shelf = Shelf()
+        shelf = Shelf()
         shelf.yOffset = yOffset
         shelf.configure()
         shelf.zPosition = 1
@@ -132,12 +135,33 @@ class GameScene: SKScene {
         addChild(target)
         
         target.physicsBody = SKPhysicsBody(rectangleOf: target.size)
-        target.physicsBody?.velocity = CGVector(dx: rowIndex == 1 ? -500 : 500, dy: 0)
+        target.physicsBody?.velocity = CGVector(dx: rowIndex == 1 ? -200 : 200, dy: 0)
         target.physicsBody?.linearDamping = 0
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
         
+        let location = touch.location(in: self)
+        let nodes = nodes(at: location)
+        
+        if (shelf.bottomWoodBoard.position.y - 30...shelf.topWoodBoard.position.y + 30).contains(location.y) {
+            // Shooting zone
+        for node in nodes {
+            guard let name = node.name else { return }
+                if name.contains("target") && !name.contains("Label") {
+                    if (61..<1024 - 60).contains(location.x) {
+                        if let index = Int(name.suffix(1)) {
+                            shotsCount[index] += 1
+                            targetLabels[index].text = "\(shotsCount[index])"
+                            if name == "target4" {
+                                targetLabels[index].fontColor = .red
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
