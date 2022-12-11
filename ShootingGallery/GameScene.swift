@@ -16,8 +16,6 @@ class GameScene: SKScene {
     
     var scoreLabel: SKLabelNode!
     var timerLabel: SKLabelNode!
-    var ammo: SKSpriteNode!
-    var ammoLabel: SKLabelNode!
     
     var targetLabels = [SKLabelNode]()
     
@@ -51,14 +49,16 @@ class GameScene: SKScene {
         timerLabel.horizontalAlignmentMode = .left
         addChild(timerLabel)
         
-        ammo = SKSpriteNode(imageNamed: "shots0")
+        let ammo = SKSpriteNode(imageNamed: "shots0")
         ammo.position = CGPoint(x: 1004 - (ammo.size.width / 2), y: 737 - (ammo.size.height / 2))
+        ammo.name = "reload"
         addChild(ammo)
         
-        ammoLabel = SKLabelNode(fontNamed: "Avenir-Medium")
+        let ammoLabel = SKLabelNode(fontNamed: "Avenir-Medium")
         ammoLabel.fontSize = 50
         ammoLabel.text = "6"
         ammoLabel.position = CGPoint(x: 1004 - ammo.size.width - 28, y: 696)
+        ammoLabel.name = "reload"
         addChild(ammoLabel)
         
         let reload = SKSpriteNode(imageNamed: "shots0")
