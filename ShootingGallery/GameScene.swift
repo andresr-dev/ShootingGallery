@@ -49,12 +49,14 @@ class GameScene: SKScene {
     var targetLabels = [SKLabelNode]()
     var shotsCount = Array(repeating: 0, count: 5)
     
-    var timeCounter = 5999 {
+    var timeCounter = 500 {
         didSet {
             timerLabel.text = timeCounter.asTimeFormatted()
         }
     }
+    
     var gameTimer: Timer!
+    var isGameOver = false
     
     override func didMove(to view: SKView) {
         shelf = Shelf()
@@ -116,6 +118,32 @@ class GameScene: SKScene {
             addChild(label)
         }
         
+        startGame()
+    }
+    
+    func startGame() {
+        for node in children {
+            if let name = node.name {
+                if name.hasPrefix("target") && !name.contains("Label") {
+                    // There's still some targets alive
+                    return
+                }
+                if name.hasPrefix("gameOver") {
+                    node.removeFromParent()
+                }
+            }
+        }
+        isGameOver = false
+        ammoLeft = 6
+        score = 0
+        shotsCount = Array(repeating: 0, count: 5)
+        for targetLabel in targetLabels {
+            targetLabel.text = "0"
+        }
+        
+        targetLabels[4].fontColor = .white
+        timeCounter = 500
+        
         firstRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createFirstRowTarget), userInfo: nil, repeats: true)
         secondRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createSecondRowTarget), userInfo: nil, repeats: true)
         thirdRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createThirdRowTarget), userInfo: nil, repeats: true)
@@ -143,7 +171,42 @@ class GameScene: SKScene {
             timeCounter -= 1
             return
         }
+        let gameOverSound = SKAction.playSoundFileNamed("gameOver.wav", waitForCompletion: false)
+        run(gameOverSound)
+        isGameOver = true
+        
         gameTimer.invalidate()
+        firstRowTimer.invalidate()
+        secondRowTimer.invalidate()
+        thirdRowTimer.invalidate()
+        
+        let gameOverMessage = SKSpriteNode(imageNamed: "game-over")
+        gameOverMessage.position = CGPoint(x: 512, y: 576 + 25)
+        gameOverMessage.zPosition = 2
+        gameOverMessage.name = "gameOverMessage"
+        addChild(gameOverMessage)
+        
+        let finalScore = SKLabelNode(fontNamed: "ChalkboardSE-Bold")
+        finalScore.position = CGPoint(x: 512, y: 384 + 8)
+        finalScore.zPosition = 2
+        finalScore.fontSize = 55
+        finalScore.text = "Score: \(score)"
+        finalScore.name = "gameOverMessage"
+        addChild(finalScore)
+        
+        let button = SKShapeNode(rectOf: CGSize(width: 260, height: 70), cornerRadius: 35)
+        button.position = CGPoint(x: 512, y: 192 + 14)
+        button.fillColor = .blue
+        button.zPosition = 2
+        button.name = "gameOverButton"
+        addChild(button)
+        
+        let buttonLabel = SKLabelNode(fontNamed: "ChalkboardSE-Bold")
+        buttonLabel.text = "Play Again"
+        buttonLabel.position = CGPoint(x: 512, y: 182 + 14)
+        buttonLabel.zPosition = 2
+        buttonLabel.name = "gameOverButton"
+        addChild(buttonLabel)
     }
     
     @objc func addTargetNode(for rowIndex: Int) {
@@ -170,6 +233,16 @@ class GameScene: SKScene {
         let location = touch.location(in: self)
         let nodes = nodes(at: location)
         
+        guard !isGameOver else {
+            for node in nodes {
+                if node.name == "gameOverButton" {
+                    startGame()
+                    return
+                }
+            }
+            return
+        }
+        
         if (shelf.bottomWoodBoard.position.y - 30...shelf.topWoodBoard.position.y + 30).contains(location.y) {
             // Shooting zone
             guard ammoLeft > 0 else {
@@ -181,7 +254,7 @@ class GameScene: SKScene {
             shootGun(at: location)
             
             for node in nodes {
-                if let name = node.name, name.contains("target"), !name.contains("Label") {
+                if let name = node.name, name.contains("target") {
                     if (61..<1024 - 60).contains(location.x) {
                         hitTarget(node: node)
                     }
