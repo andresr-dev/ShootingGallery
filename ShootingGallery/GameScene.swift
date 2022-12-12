@@ -49,7 +49,7 @@ class GameScene: SKScene {
     var targetLabels = [SKLabelNode]()
     var shotsCount = Array(repeating: 0, count: 5)
     
-    var timeCounter = 500 {
+    var timeCounter = 0 {
         didSet {
             timerLabel.text = timeCounter.asTimeFormatted()
         }
@@ -133,37 +133,44 @@ class GameScene: SKScene {
                 }
             }
         }
+        
         isGameOver = false
         ammoLeft = 6
         score = 0
         shotsCount = Array(repeating: 0, count: 5)
+        
         for targetLabel in targetLabels {
             targetLabel.text = "0"
         }
         
         targetLabels[4].fontColor = .white
-        timeCounter = 500
+        timeCounter = 4500
         
-        firstRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createFirstRowTarget), userInfo: nil, repeats: true)
-        secondRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createSecondRowTarget), userInfo: nil, repeats: true)
-        thirdRowTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createThirdRowTarget), userInfo: nil, repeats: true)
+        let interval1 = Double.random(in: 0.8...2)
+        firstRowTimer = Timer.scheduledTimer(timeInterval: interval1, target: self, selector: #selector(createFirstRowTarget), userInfo: nil, repeats: true)
+        
+        let interval2 = Double.random(in: 0.8...2)
+        secondRowTimer = Timer.scheduledTimer(timeInterval: interval2, target: self, selector: #selector(createSecondRowTarget), userInfo: nil, repeats: true)
+        
+        let interval3 = Double.random(in: 0.8...2)
+        thirdRowTimer = Timer.scheduledTimer(timeInterval: interval3, target: self, selector: #selector(createThirdRowTarget), userInfo: nil, repeats: true)
         
         gameTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
     }
         
     @objc func createFirstRowTarget() {
         let rowIndex = 0
-        addTargetNode(for: rowIndex)
+        createTargetNode(for: rowIndex)
     }
     
     @objc func createSecondRowTarget() {
         let rowIndex = 1
-        addTargetNode(for: rowIndex)
+        createTargetNode(for: rowIndex)
     }
     
     @objc func createThirdRowTarget() {
         let rowIndex = 2
-        addTargetNode(for: rowIndex)
+        createTargetNode(for: rowIndex)
     }
     
     @objc func countdown() {
@@ -205,12 +212,15 @@ class GameScene: SKScene {
         buttonLabel.text = "Play Again"
         buttonLabel.position = CGPoint(x: 512, y: 182 + 14)
         buttonLabel.zPosition = 2
-        buttonLabel.name = "gameOverButton"
+        buttonLabel.name = "gameOverLabel"
         addChild(buttonLabel)
     }
     
-    @objc func addTargetNode(for rowIndex: Int) {
-        let number = Int.random(in: 0...4)
+    @objc func createTargetNode(for rowIndex: Int) {
+        var number = Int.random(in: 0...5)
+        if number > 3 {
+            number = 4
+        }
         let targetName = "target\(number)"
         let yRowOffset = rowIndex * 130 + (rowIndex == 0 ? 2 : 5)
         
@@ -223,7 +233,14 @@ class GameScene: SKScene {
         addChild(target)
         
         target.physicsBody = SKPhysicsBody(rectangleOf: target.size)
-        target.physicsBody?.velocity = CGVector(dx: rowIndex == 1 ? -200 : 200, dy: 0)
+        
+        let velocity: Double
+        if number == 4 {
+            velocity = Double.random(in: 700...1300)
+        } else {
+            velocity = Double.random(in: 800...1700)
+        }
+        target.physicsBody?.velocity = CGVector(dx: rowIndex == 1 ? -velocity : velocity, dy: 0)
         target.physicsBody?.linearDamping = 0
     }
     
@@ -237,7 +254,6 @@ class GameScene: SKScene {
             for node in nodes {
                 if node.name == "gameOverButton" {
                     startGame()
-                    return
                 }
             }
             return
