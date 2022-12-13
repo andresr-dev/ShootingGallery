@@ -3,7 +3,9 @@ A classic shooting gallery game made with SpriteKit for iPads.
 
 Be careful by shooting a penguin because it's going to cost you some points.
 
-Remember to test this code on an actual iPad, because in the simulator it's really slow
+Remember to test this code on an actual iPad since on simulator it's really slow.
+
+iPadOS Version: 15.0
 
 [Buy me a coffe ☕️](https://www.buymeacoffee.com/zDZwl92esh)
 
