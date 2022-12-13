@@ -323,10 +323,10 @@ class GameScene: SKScene {
         shot.zPosition = 1
         addChild(shot)
         
-        Task {
-            try await Task.sleep(for: .seconds(0.4))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             shot.removeFromParent()
         }
+        
         let shotSound = SKAction.playSoundFileNamed("shot.wav", waitForCompletion: false)
         run(shotSound)
         ammoLeft -= 1
