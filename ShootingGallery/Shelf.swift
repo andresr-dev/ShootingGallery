@@ -42,7 +42,7 @@ class Shelf: SKNode {
         addChild(rightWoodBoard)
         
         secondWoodRow = SKSpriteNode(imageNamed: "wood-board")
-        secondWoodRow.size = CGSize(width: 6, height: 1024 - leftWoodBoard.size.width - rightWoodBoard.size.width)
+        secondWoodRow.size = CGSize(width: 6, height: 1026 - leftWoodBoard.size.width - rightWoodBoard.size.width)
         secondWoodRow.zRotation = .pi / 2
         secondWoodRow.position = CGPoint(x: 512, y: Int(bottomWoodBoard.position.y) + Int(bottomWoodBoard.size.width / 2) + 130)
         addChild(secondWoodRow)

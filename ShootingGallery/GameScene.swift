@@ -51,7 +51,9 @@ class GameScene: SKScene {
     var targetLabels = [SKLabelNode]()
     var shotsCount = Array(repeating: 0, count: 5)
     
-    var timeCounter = 4000 {
+    let countdownTime = 4000 // 40 seconds
+    
+    var timeCounter = 0 {
         didSet {
             timerLabel.text = timeCounter.asTimeFormatted()
         }
@@ -78,7 +80,7 @@ class GameScene: SKScene {
         
         timerLabel = SKLabelNode(fontNamed: "Avenir-Heavy")
         timerLabel.fontSize = 50
-        timerLabel.text = "\(timeCounter.asTimeFormatted())"
+        timerLabel.text = "\(countdownTime.asTimeFormatted())"
         timerLabel.position = CGPoint(x: 512 - (timerLabel.frame.size.width / 2), y: 697)
         timerLabel.horizontalAlignmentMode = .left
         addChild(timerLabel)
@@ -162,7 +164,7 @@ class GameScene: SKScene {
         }
         
         targetLabels[4].fontColor = .white
-        timeCounter = 4000
+        timeCounter = countdownTime
         
         let interval1 = Double.random(in: 0.8...2)
         firstRowTimer = Timer.scheduledTimer(timeInterval: interval1, target: self, selector: #selector(createFirstRowTarget), userInfo: nil, repeats: true)
