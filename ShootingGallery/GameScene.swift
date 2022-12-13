@@ -21,6 +21,8 @@ class GameScene: SKScene {
     var currentAmmo: SKSpriteNode!
     var currentAmmoLabel: SKLabelNode!
     
+    var isGameRunning = false
+    
     var ammoLeft = 6 {
         didSet {
             currentAmmoLabel.text = String(ammoLeft)
@@ -49,7 +51,7 @@ class GameScene: SKScene {
     var targetLabels = [SKLabelNode]()
     var shotsCount = Array(repeating: 0, count: 5)
     
-    var timeCounter = 0 {
+    var timeCounter = 4000 {
         didSet {
             timerLabel.text = timeCounter.asTimeFormatted()
         }
@@ -76,7 +78,7 @@ class GameScene: SKScene {
         
         timerLabel = SKLabelNode(fontNamed: "Avenir-Heavy")
         timerLabel.fontSize = 50
-        timerLabel.text = "59:99"
+        timerLabel.text = "\(timeCounter.asTimeFormatted())"
         timerLabel.position = CGPoint(x: 512 - (timerLabel.frame.size.width / 2), y: 697)
         timerLabel.horizontalAlignmentMode = .left
         addChild(timerLabel)
@@ -103,32 +105,48 @@ class GameScene: SKScene {
         reloadLabel.name = "reload"
         addChild(reloadLabel)
         
+        // Create target images and labels at the bottom of the screen
         for i in 0...4 {
-            let target = SKSpriteNode(imageNamed: "target\(i)")
-            target.position = CGPoint(x: ((1000 * (i + 1)) / 6) - 35, y: 80)
-            target.size = CGSize(width: target.size.width * (i == 4 ? 0.7 : 0.5), height: target.size.height * (i == 4 ? 0.7 : 0.5))
-            addChild(target)
+            let targetImage = SKSpriteNode(imageNamed: "target\(i)")
+            targetImage.position = CGPoint(x: ((1000 * (i + 1)) / 6) - 35, y: 80)
+            targetImage.size = CGSize(width: targetImage.size.width * (i == 4 ? 0.7 : 0.5), height: targetImage.size.height * (i == 4 ? 0.7 : 0.5))
+            addChild(targetImage)
             
-            let label = SKLabelNode(fontNamed: "Avenir-Medium")
-            label.fontSize = 45
-            label.position = CGPoint(x: target.position.x - target.size.width + 5, y: target.position.y - 15)
-            label.text = "0"
-            label.name = "targetLabel\(i)"
-            targetLabels.append(label)
-            addChild(label)
+            let targetLabel = SKLabelNode(fontNamed: "Avenir-Medium")
+            targetLabel.fontSize = 45
+            targetLabel.position = CGPoint(x: targetImage.position.x - targetImage.size.width, y: targetImage.position.y - 15)
+            targetLabel.text = "0"
+            targetLabel.name = "targetLabel\(i)"
+            targetLabels.append(targetLabel)
+            addChild(targetLabel)
         }
         
-        startGame()
+        let button = SKShapeNode(rectOf: CGSize(width: 260, height: 70), cornerRadius: 35)
+        button.position = CGPoint(x: 512, y: 409)
+        button.fillColor = .blue
+        button.zPosition = 2
+        button.name = "startGameButton"
+        addChild(button)
+        
+        let buttonLabel = SKLabelNode(fontNamed: "ChalkboardSE-Bold")
+        buttonLabel.text = "Start Game!"
+        buttonLabel.position = CGPoint(x: 512, y: 399)
+        buttonLabel.zPosition = 2
+        buttonLabel.name = "startGameButtonLabel"
+        addChild(buttonLabel)
     }
     
     func startGame() {
+        isGameRunning = true
+        
         for node in children {
             if let name = node.name {
                 if name.hasPrefix("target") && !name.contains("Label") {
-                    // There's still some targets alive
+                    // There's still some targets alive, so wait until we are ready to start again
                     return
                 }
-                if name.hasPrefix("gameOver") {
+                
+                if name.hasPrefix("startGame") || name.hasPrefix("gameOver") {
                     node.removeFromParent()
                 }
             }
@@ -144,7 +162,7 @@ class GameScene: SKScene {
         }
         
         targetLabels[4].fontColor = .white
-        timeCounter = 4500
+        timeCounter = 4000
         
         let interval1 = Double.random(in: 0.8...2)
         firstRowTimer = Timer.scheduledTimer(timeInterval: interval1, target: self, selector: #selector(createFirstRowTarget), userInfo: nil, repeats: true)
@@ -178,6 +196,7 @@ class GameScene: SKScene {
             timeCounter -= 1
             return
         }
+        
         let gameOverSound = SKAction.playSoundFileNamed("gameOver.wav", waitForCompletion: false)
         run(gameOverSound)
         isGameOver = true
@@ -188,13 +207,13 @@ class GameScene: SKScene {
         thirdRowTimer.invalidate()
         
         let gameOverMessage = SKSpriteNode(imageNamed: "game-over")
-        gameOverMessage.position = CGPoint(x: 512, y: 576 + 25)
+        gameOverMessage.position = CGPoint(x: 512, y: 601)
         gameOverMessage.zPosition = 2
         gameOverMessage.name = "gameOverMessage"
         addChild(gameOverMessage)
         
         let finalScore = SKLabelNode(fontNamed: "ChalkboardSE-Bold")
-        finalScore.position = CGPoint(x: 512, y: 384 + 8)
+        finalScore.position = CGPoint(x: 512, y: 392)
         finalScore.zPosition = 2
         finalScore.fontSize = 55
         finalScore.text = "Score: \(score)"
@@ -202,15 +221,15 @@ class GameScene: SKScene {
         addChild(finalScore)
         
         let button = SKShapeNode(rectOf: CGSize(width: 260, height: 70), cornerRadius: 35)
-        button.position = CGPoint(x: 512, y: 192 + 14)
+        button.position = CGPoint(x: 512, y: 206)
         button.fillColor = .blue
         button.zPosition = 2
         button.name = "gameOverButton"
         addChild(button)
         
         let buttonLabel = SKLabelNode(fontNamed: "ChalkboardSE-Bold")
-        buttonLabel.text = "Play Again"
-        buttonLabel.position = CGPoint(x: 512, y: 182 + 14)
+        buttonLabel.text = "Play Again!"
+        buttonLabel.position = CGPoint(x: 512, y: 196)
         buttonLabel.zPosition = 2
         buttonLabel.name = "gameOverLabel"
         addChild(buttonLabel)
@@ -249,6 +268,15 @@ class GameScene: SKScene {
         
         let location = touch.location(in: self)
         let nodes = nodes(at: location)
+        
+        guard isGameRunning else {
+            for node in nodes {
+                if node.name == "startGameButton" {
+                    startGame()
+                }
+            }
+            return
+        }
         
         guard !isGameOver else {
             for node in nodes {
